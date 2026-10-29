@@ -58,3 +58,23 @@ services:
       - "8001:8000"
     depends_on:
       - otel-collector
+      - app-b
+    
+  app-b:
+    build: ./app-b
+    container_name: app-b
+    environment:
+      - OTEL_SERVICE_NAME=app-b
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+    depends_on:
+      - otel-collector
+      
+  app-c:
+    build: ./app-c
+    container_name: app-c
+    environment:
+      - OTEL_SERVICE_NAME=app-c
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - ERROR_RATE=0
+    depends_on:
+      - otel-collector
