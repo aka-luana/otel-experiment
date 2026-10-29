@@ -47,3 +47,14 @@ services:
     depends_on:
       - jaeger
       - loki
+    
+  app-a:
+    build: ./app-a
+    container_name: app-a
+    environment:
+      - OTEL_SERVICE_NAME=app-a
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+    ports:
+      - "8001:8000"
+    depends_on:
+      - otel-collector
